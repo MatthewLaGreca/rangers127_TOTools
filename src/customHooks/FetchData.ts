@@ -16,12 +16,13 @@ export const useGetEvent = (): UseGetEventData => {
     const [eventIDs, setEventIDs] = useState<string[]>([])
 
     async function handleDataFetch() {
-        try{
-            const [events, eventIDs] = await serverCalls.getEvents()
-            setEventData(events)
-            setEventIDs(eventIDs)
-        } catch (error){
-            console.log('Error fetching events: ', error)
+        try {
+            const [events, eventIDs] = await serverCalls.getEvents();
+            const flattenedEventIDs = eventIDs.flat(); // Flatten the array
+            setEventData(events as EventProps[]);
+            setEventIDs(flattenedEventIDs as string[]); // Set the flattened array
+        } catch (error) {
+            console.log('Error fetching events: ', error);
         }
         
     }

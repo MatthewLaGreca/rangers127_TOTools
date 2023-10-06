@@ -28,7 +28,6 @@ import { getDatabase, ref, set } from 'firebase/database'
 import { NavBar } from '../sharedComponents/NavBar'
 import { InputText, InputPassword } from '../sharedComponents/Inputs'
 import bg from '../../assets/images/img.png'
-import { firebaseConfig } from '../../firebaseConfig'
 
 
 const authStyles = {

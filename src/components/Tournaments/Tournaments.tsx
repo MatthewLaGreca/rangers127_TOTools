@@ -5,7 +5,6 @@ import {
     Button,
     Dialog,
     DialogContent,
-    DialogContentText,
     Stack,
     Typography,
     Snackbar,
@@ -22,7 +21,6 @@ import InfoIcon from '@mui/icons-material/Info';
 import { SubmitHandler, useForm, Controller } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import {
-    onAuthStateChanged,
     getAuth,
 } from 'firebase/auth'
 
@@ -39,14 +37,16 @@ import A20 from '../../assets/images/ddr_a20_plus.png'
 import ITG from '../../assets/images/itg2.png'
 import PIU from '../../assets/images/piu_phoenix.jpg'
 import Extreme from '../../assets/images/ddr_extreme.png'
+import ULT from '../../assets/images/smash.jpg'
 import { useGetEvent } from '../../customHooks';
 
-const images = {
+const images: { [key: string]: string } = {
     A20,
     ITG,
     PIU,
-    Extreme
-}
+    Extreme,
+    ULT,
+  };
 
 export const tournamentStyles = {
     main: {
@@ -120,16 +120,16 @@ export const tournamentStyles = {
 // }
 
 
-const UpdateTournament = ({index}: {index: number}) => {
+const UpdateTournament = ({ index }: { index: number }) => {
     //setting up our hooks
     const [open, setOpen] = useState(false)
-    const [message, setMessage] = useState<string>('')
+    const [message] = useState<string>('')
     const [messageType, setMessageType] = useState<MessageType>()
     const navigate = useNavigate() // instantiate that useNavigate() object to use
     const auth = getAuth() //essentially monitoring the state of our authorization
-    const { register, handleSubmit, control, formState:{errors} } = useForm<EventProps>({})
+    const { register, handleSubmit, control, formState: { errors } } = useForm<EventProps>({})
 
-    const {eventData, eventIDs} = useGetEvent()
+    const { eventData, eventIDs } = useGetEvent()
 
     const onSubmit: SubmitHandler<EventProps> = async (data, event) => {
         if (event) event.preventDefault();
@@ -159,12 +159,13 @@ const UpdateTournament = ({index}: {index: number}) => {
                 tOID: eventIDs[index][0],
             }
             await serverCalls.updateEvent(eventIDs[index][1], eventIDs[index][0], newEvent)
-            .then(() => {
-                setMessageType('success')
-                setOpen(true)
-                setTimeout(() => { navigate('/tournaments') }, 2000)})
-        } 
-            
+                .then(() => {
+                    setMessageType('success')
+                    setOpen(true)
+                    setTimeout(() => { navigate('/tournaments') }, 2000)
+                })
+        }
+
     }
 
     return (
@@ -183,9 +184,9 @@ const UpdateTournament = ({index}: {index: number}) => {
                     <Controller
                         name='name'
                         control={control}
-                        rules={{ required: 'Event name is required'}}
+                        rules={{ required: 'Event name is required' }}
                         defaultValue=''
-                        render={({field}) => <InputText {...field} value={field.value} onChange={field.onChange} name='username' placeholder='Mistake on the Lake 6' />}
+                        render={({ field }) => <InputText {...field} value={field.value} onChange={field.onChange} name='username' placeholder='Mistake on the Lake 6' />}
                     />
                     {errors.name && <p>{errors.name.message}</p>}
 
@@ -193,43 +194,51 @@ const UpdateTournament = ({index}: {index: number}) => {
                     <label>
                         <img src={A20} alt="DDR A20 Plus" />
                         <input
-                        type="radio"
-                        value="A20"
-                        {...register('game', { required: 'Please select an option' })}
+                            type="radio"
+                            value="A20"
+                            {...register('game', { required: 'Please select an option' })}
                         /> DanceDanceRevolution A20 Plus
                     </label>
                     <label>
                         <img src={Extreme} alt="DDR Extreme Pro" />
                         <input
-                        type="radio"
-                        value="Extreme"
-                        {...register('game', { required: 'Please select an option' })}
+                            type="radio"
+                            value="Extreme"
+                            {...register('game', { required: 'Please select an option' })}
                         /> DanceDanceRevolution Extreme Pro
                     </label>
                     <label>
                         <img src={ITG} alt="In The Groove 2" />
                         <input
-                        type="radio"
-                        value="ITG"
-                        {...register('game', { required: 'Please select an option' })}
+                            type="radio"
+                            value="ITG"
+                            {...register('game', { required: 'Please select an option' })}
                         /> In The Groove 2
                     </label>
                     <label>
                         <img src={PIU} alt="Pump It Up" />
                         <input
-                        type="radio"
-                        value="PIU"
-                        {...register('game', { required: 'Please select an option' })}
+                            type="radio"
+                            value="PIU"
+                            {...register('game', { required: 'Please select an option' })}
                         /> Pump It Up
+                    </label>
+                    <label>
+                        <img src={ULT} alt="Smash Ultimate" />
+                        <input
+                            type="radio"
+                            value="ULT"
+                            {...register('game', { required: 'Please select an option' })}
+                        /> Super Smash Bros. Ultimate
                     </label>
 
                     <label htmlFor="description">Event Description</label>
                     <Controller
                         name='description'
                         control={control}
-                        rules={{ required: 'Description is required'}}
+                        rules={{ required: 'Description is required' }}
                         defaultValue=''
-                        render={({field}) => <InputText {...field} value={field.value} onChange={field.onChange} name='description' placeholder='MEGA' />}
+                        render={({ field }) => <InputText {...field} value={field.value} onChange={field.onChange} name='description' placeholder='MEGA' />}
                     />
                     {errors.description && <p>{errors.description.message}</p>}
 
@@ -237,13 +246,13 @@ const UpdateTournament = ({index}: {index: number}) => {
                     <Controller
                         name='date'
                         control={control}
-                        rules={{ required: 'Event date is required'}}
+                        rules={{ required: 'Event date is required' }}
                         defaultValue=''
-                        render={({field}) => <InputText {...field} value={field.value} onChange={field.onChange} name='date' placeholder='Sampling Masters' />}
+                        render={({ field }) => <InputText {...field} value={field.value} onChange={field.onChange} name='date' placeholder='Sampling Masters' />}
                     />
                     {errors.date && <p>{errors.date.message}</p>}
 
-                    
+
                 </Box>
                 <Button type='submit'>Update</Button>
             </form>
@@ -261,16 +270,16 @@ const UpdateTournament = ({index}: {index: number}) => {
 
 }
 
-const DeleteTournament = ({index}: {index: number}) => {
+const DeleteTournament = ({ index }: { index: number }) => {
     //setting up our hooks
     const [open, setOpen] = useState(false)
-    const [message, setMessage] = useState<string>('')
+    const [message] = useState<string>('')
     const [messageType, setMessageType] = useState<MessageType>()
     const navigate = useNavigate() // instantiate that useNavigate() object to use
     const auth = getAuth() //essentially monitoring the state of our authorization
-    const { register, handleSubmit, control, formState:{errors} } = useForm<EventProps>({})
+    const { handleSubmit } = useForm<EventProps>({})
 
-    const {eventData, eventIDs} = useGetEvent()
+    const { eventIDs } = useGetEvent()
 
     const onSubmit: SubmitHandler<EventProps> = async (data, event) => {
         if (event) event.preventDefault();
@@ -292,12 +301,13 @@ const DeleteTournament = ({index}: {index: number}) => {
         // }
         if ((localStorage.getItem('organizer') === 'true')) { //This can probably be handled by checking when determining a route
             await serverCalls.deleteEvent(eventIDs[index][1], eventIDs[index][0])
-            .then(() => {
-                setMessageType('success')
-                setOpen(true)
-                setTimeout(() => { navigate('/tournaments') }, 2000)})
-        } 
-            
+                .then(() => {
+                    setMessageType('success')
+                    setOpen(true)
+                    setTimeout(() => { navigate('/tournaments') }, 2000)
+                })
+        }
+
     }
 
     return (
@@ -333,10 +343,10 @@ const DeleteTournament = ({index}: {index: number}) => {
 }
 
 export const Events = () => {
-    const {eventData} = useGetEvent();
+    const { eventData } = useGetEvent();
     const [open, setOpen] = useState(false)
-    const [selectedIndex, setSelectedIndex ] = useState<number | null>(null)
-    const [deleteIndex, setDeleteIndex ] = useState<number | null>(null)
+    const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
+    const [deleteIndex, setDeleteIndex] = useState<number | null>(null)
     // const [currentEvents, setCurrentEvents] = useState<EventProps>();
     // const [cartOpen, setCartOpen] = useState(false);
     const handleUpdateForm = (index: number) => {
@@ -377,7 +387,7 @@ export const Events = () => {
                 </Typography>
             </Box>
         );
-    } 
+    }
 
     console.log(eventData)
     return (
@@ -426,19 +436,19 @@ export const Events = () => {
                                     <Button
                                         size='medium'
                                         variant='outlined'
-                                        onClick={() => {setOpen(true); handleUpdateForm(index)}} // Pass the index when the button is clicked
+                                        onClick={() => { setOpen(true); handleUpdateForm(index) }} // Pass the index when the button is clicked
                                         sx={tournamentStyles.button}
                                     >
                                         Update Event
-                                    </Button> 
+                                    </Button>
                                     <Button
                                         size='medium'
                                         variant='outlined'
-                                        onClick={() => {setOpen(true); handleDeleteForm(index)}} // Pass the index when the button is clicked
+                                        onClick={() => { setOpen(true); handleDeleteForm(index) }} // Pass the index when the button is clicked
                                         sx={tournamentStyles.button}
                                     >
                                         Delete Event
-                                    </Button> 
+                                    </Button>
                                 </Stack>
                             </CardContent>
                         </Card>
@@ -446,11 +456,11 @@ export const Events = () => {
                 ))}
             </Grid>
             <Dialog open={open} onClose={() => setOpen(false)}>
-                    <DialogContent>
-                        {selectedIndex !== null && (<UpdateTournament index={selectedIndex}/>)}
-                        {deleteIndex !== null && (<DeleteTournament index={deleteIndex}/>)}
-                    </DialogContent>
-                </Dialog>
+                <DialogContent>
+                    {selectedIndex !== null && (<UpdateTournament index={selectedIndex} />)}
+                    {deleteIndex !== null && (<DeleteTournament index={deleteIndex} />)}
+                </DialogContent>
+            </Dialog>
             {/* <Dialog open={cartOpen} onClose={() => { setCartOpen(false) }}>
                 <DialogContent>
                     <DialogContentText>Add to Cart</DialogContentText>

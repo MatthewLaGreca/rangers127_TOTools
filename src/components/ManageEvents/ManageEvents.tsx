@@ -1,18 +1,9 @@
 import * as _React from 'react';
-import { useState, useEffect } from 'react';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import Grid from "@mui/material/Grid";
-import InfoIcon from '@mui/icons-material/Info';
-import { getDatabase, ref, onValue, off, remove, update, set, push } from 'firebase/database';
+import { useState } from 'react';
+import { getDatabase, ref, push } from 'firebase/database';
 import { SubmitHandler, useForm, Controller } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import {
-    onAuthStateChanged,
     getAuth,
 } from 'firebase/auth'
 import {
@@ -21,7 +12,6 @@ import {
     Typography,
     Stack,
     Divider,
-    // CircularProgress,
     Snackbar,
     Dialog,
     DialogContent,
@@ -32,13 +22,13 @@ import {
 
 //internal imports
 import { NavBar } from '../sharedComponents/NavBar'
-import { InputText, InputPassword } from '../sharedComponents/Inputs'
+import { InputText } from '../sharedComponents/Inputs'
 import a20 from '../../assets/images/ddr_a20_plus.png'
 import itg2 from '../../assets/images/itg2.png'
 import piu from '../../assets/images/piu_phoenix.jpg'
 import expro from '../../assets/images/ddr_extreme.png'
 import bg from '../../assets/images/father_and_son.jpg'
-import { firebaseConfig } from '../../firebaseConfig'
+import ult from '../../assets/images/smash.jpg'
 
 export interface EventProps {
     name: string
@@ -187,6 +177,14 @@ const MakeTournament = () => {
                         {...register('game', { required: 'Please select an option' })}
                         /> Pump It Up
                     </label>
+                    <label>
+                        <img src={ult} alt="Smash Ultimate" />
+                        <input
+                        type="radio"
+                        value="ULT"
+                        {...register('game', { required: 'Please select an option' })}
+                        /> Super Smash Bros. Ultimate
+                    </label>
 
                     <label htmlFor="description">Event Description</label>
                     <Controller
@@ -230,7 +228,7 @@ export const ManageEvents = (props: Props) => {
     //setup our hooks
     const [open, setOpen] = useState(false)
     // const navigate = useNavigate()
-    const [signType, setSignType] = useState('')
+    // const [signType, setSignType] = useState('')
 
     // const handleSnackClose = () => {
     //     setOpen(false)
@@ -259,7 +257,7 @@ export const ManageEvents = (props: Props) => {
                             color='primary'
                             size='large'
                             sx={authStyles.button}
-                            onClick={() => { setOpen(true); setSignType('signin') }}
+                            onClick={() => { setOpen(true) }}
                         >
                             Create Event
                         </Button>

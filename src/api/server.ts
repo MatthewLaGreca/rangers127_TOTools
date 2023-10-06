@@ -30,7 +30,7 @@
 // databaseURL: "https://totools-default-rtdb.firebaseio.com/",
 // apiKey: "AIzaSyB9y2i1jk0EXPmnDql1OZp1aTDSX7a3gRg",
 import { EventProps } from "../components"
-import { getDatabase, ref, get, push, update, remove } from "firebase/database"
+import { getDatabase, ref, get, update, remove } from "firebase/database"
 // import { CustomVonage } from "@vonage/server-sdk"
 // const vonage = new CustomVonage({
 //     apiKey: '3138c418',

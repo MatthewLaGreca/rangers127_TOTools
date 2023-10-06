@@ -1,0 +1,12 @@
+{
+  "rules": {
+    "users": {
+        ".read": "true", // Allow read access, at least for now
+        ".write": "true", // Allow write access, at least for now
+    },
+    "events": {
+        ".read": "true", // Allow read access, at least for now
+        ".write": "true", // Allow write access, at least for now
+    }
+  }
+}
